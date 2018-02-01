@@ -4,7 +4,7 @@
 #####################################################################
           
 #instalando pacotes, se for necessário
-packages = c("dismo", "raster", 'maptools')
+packages = c("dismo", "raster", "maptools", "flora")
 for (p in setdiff(packages, installed.packages()[, "Package"])) { install.packages(p, dependencies = T)}
 
 
@@ -31,6 +31,15 @@ raster::plot(dismo::gbif("Euterpe edulis", sp = T), col = "red", pch = 19)
 data(wrld_simpl, package = "maptools")
 plot(wrld_simpl, add=T)
 
+#conferindo no Flora 2020
+#uma espécie
+flora::get.taxa(species.sel$species)
+
+#várias espécies 
+ex=c("Manilkara maxima", "Eutepe edulis", "Caesalpinea echinata")
+ex.res=flora::get.taxa(ex)
+
+head(ex.res)
 
 
 
@@ -38,8 +47,10 @@ plot(wrld_simpl, add=T)
 
 
 
-aa = dismo::gbif("manilkara maxima")
 
-bb = rgbif::occ_search(scientificName =  "manilkara maxima", hasCoordinate = T, return = "data")
 
-bb
+
+
+
+
+
