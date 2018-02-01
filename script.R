@@ -1,0 +1,45 @@
+#####################################################################
+#         ROTINA PARA BAIXAR DADOS DE OCORRÊNCIA DO GBIF E          # 
+#         CONFERENCIA DE SINÔNIMOS NO SITE DO FLORA 2020            #
+#####################################################################
+          
+#instalando pacotes, se for necessário
+packages = c("dismo", "raster", 'maptools')
+for (p in setdiff(packages, installed.packages()[, "Package"])) { install.packages(p, dependencies = T)}
+
+
+#baixar dados de ocorrência do GBIF pelo pacote dismo
+species=dismo::gbif("Euterpe edulis")
+
+#verificar quais dados a espécie tem
+names(species)
+
+#selecionando as colunas de interesse
+species.sel=species[,c("species","lon","lat", "municipality", "adm1")]
+
+#excluíndo os registros que não tem longitude e latitude
+species.sel=na.exclude(species.sel)
+
+#número de registros com coordenadas
+dim(species.sel)[1]
+
+#visualizando os 10 primeiro registros
+head(species.sel,10)
+
+#plotando os registros para visualização
+raster::plot(dismo::gbif("Euterpe edulis", sp = T), col = "red", pch = 19)
+data(wrld_simpl, package = "maptools")
+plot(wrld_simpl, add=T)
+
+
+
+
+
+
+
+
+aa = dismo::gbif("manilkara maxima")
+
+bb = rgbif::occ_search(scientificName =  "manilkara maxima", hasCoordinate = T, return = "data")
+
+bb
