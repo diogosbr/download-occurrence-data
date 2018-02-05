@@ -3,6 +3,9 @@
 #         CONFERENCIA DE SINÔNIMOS NO SITE DO FLORA 2020            #
 #####################################################################
 
+#Elaborado por:
+#Diogo S. B. Rocha (diogosbr@gmail.com) 
+
 #instalando pacotes, se for necessário
 packages = c("dismo", "raster", "maptools", "flora", "devtools")
 for (p in setdiff(packages, installed.packages()[, "Package"])) { install.packages(p, dependencies = T)}
@@ -61,11 +64,17 @@ tapirira.sel = mani[,c("species","lon","lat", "municipality", "adm1")]
 #excluíndo os registros sem coordenadas
 tapirira.sel = na.exclude(tapirira.sel)
 
-tapirira.sel
-
+#visualizando os 6 primeiros registros 
 head(tapirira.sel)
 
-rm_accent(tapirira.sel$municipality)
+#indica quais são os registros que as cooredenas estão fora do municipio informado  e registros fora do Brasil
+tapirira.filt = filt(tapirira.sel)
 
-filt(tapirira.sel)
+#os 6 primeiros registros 
+head(tapirira.filt)
+
+
+#Verificar se as coordenas estão invertidas
+
+#------------em construção------------#
 
