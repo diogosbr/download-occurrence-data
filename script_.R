@@ -3,6 +3,17 @@
 #         CONFERENCIA DE SINÔNIMOS NO SITE DO FLORA 2020            #
 #####################################################################
 
+#######################################################################
+#                                                                     #
+#         ROTINA PARA:                                                #
+#         - BAIXAR DADOS DE OCORRÊNCIA DO GBIF;                       # 
+#         - CONFERENCIA DE SINÔNIMOS NO SITE DO FLORA 2020            #
+#         - VERIFICAR PONTOS FORA DO MUNICÍPIO DE COLETA;             #
+#         - vERIFICAR SE AS COORDENADAS ESTÃO INVERTIDAS (lon e lat)  #
+#                                                                     #
+#                 versão 1.1.3                                        #
+#######################################################################
+
 #Elaborado por:
 #Diogo S. B. Rocha (diogosbr@gmail.com) 
 
@@ -55,23 +66,27 @@ devtools::install_github("diogosbr/spfilt")
 #carregando pacote
 require(spfilt)
 
-#Obtendo coordenadas da espécie/grupo de interesse
-tapirira = dismo::gbif("Tapirira guianensis")
+#Carregando a planilha com os registros
+# Planilha de exeplo pode ser encontrada em XXXXX
+exemplo = read.table("exemplo.csv", h = T, sep = ";")
 
-#selecionando as colunas
-tapirira.sel = mani[,c("species","lon","lat", "municipality", "adm1")]
+#verificando os nomes das colunas
+names(exemplo)
 
 #excluíndo os registros sem coordenadas
-tapirira.sel = na.exclude(tapirira.sel)
+exemplo.sel = na.exclude(exemplo)
 
 #visualizando os 6 primeiros registros 
-head(tapirira.sel)
+head(exemplo.sel)
 
 #indica quais são os registros que as cooredenas estão fora do municipio informado  e registros fora do Brasil
-tapirira.filt = filt(tapirira.sel)
+exemplo.filt = filt(exemplo.sel)
 
 #os 6 primeiros registros 
-head(tapirira.filt)
+head(exemplo.filt)
+
+#verificando status 
+table(exemplo.filt$status)
 
 
 #Verificar se as coordenas estão invertidas
