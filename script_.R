@@ -67,8 +67,8 @@ devtools::install_github("diogosbr/spfilt")
 require(spfilt)
 
 #Carregando a planilha com os registros
-# Planilha de exeplo pode ser encontrada em XXXXX
-exemplo = read.table("exemplo.csv", h = T, sep = ";")
+# Planilha de exeplo pode ser encontrada em https://github.com/diogosbr/download-occurrence-data/blob/master/exemplo.csv
+exemplo = read.table("https://raw.githubusercontent.com/diogosbr/download-occurrence-data/master/exemplo.csv", h = T, sep = ";")
 
 #verificando os nomes das colunas
 names(exemplo)
