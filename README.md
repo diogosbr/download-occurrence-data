@@ -14,8 +14,8 @@ Install dependent packages
 packages = c("dismo", "raster", "maptools", "flora", "devtools")
 for (p in setdiff(packages, installed.packages()[, "Package"])) { install.packages(p, dependencies = T)} #instalando pacote 'spfilt' 
 devtools::install_github("diogosbr/spfilt") #carregando pacote
-require(spfilt)
-```
+require(spfilt)```
+
 
 ##Usage
 ### Baixar registros no GBIF ###
