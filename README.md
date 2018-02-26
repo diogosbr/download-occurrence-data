@@ -5,4 +5,7 @@ Script to download occurrence data and apply data cleaning
 
 - [Diogo S. B Rocha](https://github.com/diogosbr)
 
-Modelo da tabela de entrada 
+A tabela de entrada deve conter as seguintes colunas:
+"species" 	"lon"  	"lat"  	"municipality"  	"adm1"
+
+
