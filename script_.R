@@ -87,7 +87,10 @@ exemplo.sel = na.exclude(exemplo)
 #visualizando os 6 primeiros registros 
 head(exemplo.sel)
 
-#indica quais são os registros que as cooredenas estão fora do municipio informado, registros fora do Brasil e se lon e lat estão invertidas
+#indica:
+# quais são os registros que as cooredenas estão fora do municipio informado;
+# registros fora do Brasil;
+# se lon e lat estão invertidas
 exemplo.filt = filt(exemplo.sel)
 
 #os 6 primeiros registros 
