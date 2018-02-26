@@ -11,11 +11,13 @@
 #         - VERIFICAR PONTOS FORA DO MUNICÍPIO DE COLETA;             #
 #         - vERIFICAR SE AS COORDENADAS ESTÃO INVERTIDAS (lon e lat)  #
 #                                                                     #
-#                 versão 1.1.3                                        #
+#                 versão 1.1.4                                        #
 #######################################################################
 
 #Elaborado por:
 #Diogo S. B. Rocha (diogosbr@gmail.com) 
+#26/02/2018
+
 
 #instalando pacotes, se for necessário
 packages = c("dismo", "raster", "maptools", "flora", "devtools")
@@ -43,7 +45,7 @@ head(species.sel,10)
 #plotando os registros para visualização
 raster::plot(dismo::gbif("Euterpe edulis", sp = T), col = "red", pch = 19)
 data(wrld_simpl, package = "maptools")
-plot(wrld_simpl, add=T)
+raster::plot(wrld_simpl, add=T)
 
 #conferindo no Flora 2020
 #uma espécie
@@ -79,7 +81,7 @@ exemplo.sel = na.exclude(exemplo)
 #visualizando os 6 primeiros registros 
 head(exemplo.sel)
 
-#indica quais são os registros que as cooredenas estão fora do municipio informado  e registros fora do Brasil
+#indica quais são os registros que as cooredenas estão fora do municipio informado, registros fora do Brasil e se lon e lat estão invertidas
 exemplo.filt = filt(exemplo.sel)
 
 #os 6 primeiros registros 
@@ -88,8 +90,26 @@ head(exemplo.filt)
 #verificando status 
 table(exemplo.filt$status)
 
+#selecionando apenas os registros com staus Ok e as colunas de lon e lat
+filtrados = exemplo.filt[exemplo.filt$status=="Ok",c('lon','lat')]
 
-#Verificar se as coordenas estão invertidas
+#plotando os registros para visualização
+raster::plot(filtrados, col = "red", pch = 19)
+data(wrld_simpl, package = "maptools")
+raster::plot(wrld_simpl, add=T)
 
-#------------em construção------------#
 
+
+#####EXCLUIR ????
+
+##--------##
+## Extra ##
+##-------##
+#buscar status de ameaça indicado pelo CNCFlora
+
+#lendo uma lista de espécies 
+ex=c("Manilkara maxima", "Eutepe edulis", "Caesalpinea echinata")
+
+ex.res=flora::get.taxa(ex)[, c("scientific.name", "threat.status")]
+
+head(ex.res)
