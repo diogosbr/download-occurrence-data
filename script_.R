@@ -9,7 +9,7 @@
 #         - BAIXAR DADOS DE OCORRÊNCIA DO GBIF;                       # 
 #         - CONFERENCIA DE SINÔNIMOS NO SITE DO FLORA 2020            #
 #         - VERIFICAR PONTOS FORA DO MUNICÍPIO DE COLETA;             #
-#         - vERIFICAR SE AS COORDENADAS ESTÃO INVERTIDAS (lon e lat)  #
+#         - VERIFICAR SE AS COORDENADAS ESTÃO INVERTIDAS (lon e lat)  #
 #                                                                     #
 #                 versão 1.1.4                                        #
 #######################################################################
