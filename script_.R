@@ -9,9 +9,9 @@
 #         - BAIXAR DADOS DE OCORRÊNCIA DO GBIF;                       # 
 #         - CONFERENCIA DE SINÔNIMOS NO SITE DO FLORA 2020            #
 #         - VERIFICAR PONTOS FORA DO MUNICÍPIO DE COLETA;             #
-#         - VERIFICAR SE AS COORDENADAS ESTÃO INVERTIDAS (lon e lat)  #
+#         - vERIFICAR SE AS COORDENADAS ESTÃO INVERTIDAS (lon e lat)  #
 #                                                                     #
-#                 versão 1.1.4                                        #
+#                 versão 1.2.0                                        #
 #######################################################################
 
 #Elaborado por:
@@ -23,38 +23,42 @@
 packages = c("dismo", "raster", "maptools", "flora", "devtools")
 for (p in setdiff(packages, installed.packages()[, "Package"])) { install.packages(p, dependencies = T)}
 
+#lista de espécies para baixar os registros 
+nome.sp = c("Tapirira guianensis", "Miconia mirabilis", "Guapira opposita")
 
-#baixar dados de ocorrência do GBIF pelo pacote dismo
-species=dismo::gbif("Euterpe edulis")
+#gerando objeto para armazenar os registros
+lista = c()
 
-#verificar quais dados a espécie tem
-names(species)
+#loop para baixar os registros em um única tabela
+for(i in nome.sp){
+  #baixar dados de ocorrência do GBIF pelo pacote dismo
+  species=dismo::gbif(i)
+  
+  #selecionando as colunas de interesse
+  species.sel=species[,c("species","lon","lat", "municipality", "adm1")]
+  
+  #excluíndo os registros que não tem longitude e latitude
+  species.sel=na.exclude(species.sel)
+  
+  #criando a lista
+  lista = rbind(lista, species.sel)
+}
 
-#selecionando as colunas de interesse
-species.sel=species[,c("species","lon","lat", "municipality", "adm1")]
-
-#excluíndo os registros que não tem longitude e latitude
-species.sel=na.exclude(species.sel)
-
-#número de registros com coordenadas
-dim(species.sel)[1]
+#número de registros com coordenadas por espécie
+table(lista$species)
 
 #visualizando os 10 primeiro registros
-head(species.sel,10)
+head(lista,10)
 
 #plotando os registros para visualização
-raster::plot(dismo::gbif("Euterpe edulis", sp = T), col = "red", pch = 19)
 data(wrld_simpl, package = "maptools")
-raster::plot(wrld_simpl, add=T)
+lista1=lista
+sp::coordinates(lista1)  =~lon+lat
+raster::plot(lista1, col = as.factor(lista$species), pch = ".", cex = 3)
+raster::plot(wrld_simpl, add = T)
 
 #conferindo no Flora 2020
-#uma espécie
-flora::get.taxa(unique(species.sel$species))
-
-#várias espécies 
-ex=c("Manilkara maxima", "Eutepe edulis", "Caesalpinea echinata")
-ex.res=flora::get.taxa(ex)
-
+ex.res=flora::get.taxa(unique(lista$species))
 head(ex.res)
 
 
@@ -97,19 +101,3 @@ filtrados = exemplo.filt[exemplo.filt$status=="Ok",c('lon','lat')]
 raster::plot(filtrados, col = "red", pch = 19)
 data(wrld_simpl, package = "maptools")
 raster::plot(wrld_simpl, add=T)
-
-
-
-#####EXCLUIR ????
-
-##--------##
-## Extra ##
-##-------##
-#buscar status de ameaça indicado pelo CNCFlora
-
-#lendo uma lista de espécies 
-ex=c("Manilkara maxima", "Eutepe edulis", "Caesalpinea echinata")
-
-ex.res=flora::get.taxa(ex)[, c("scientific.name", "threat.status")]
-
-head(ex.res)
