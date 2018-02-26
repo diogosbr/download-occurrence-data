@@ -24,7 +24,9 @@ packages = c("dismo", "raster", "maptools", "flora", "devtools")
 for (p in setdiff(packages, installed.packages()[, "Package"])) { install.packages(p, dependencies = T)}
 
 #lista de espécies para baixar os registros 
-nome.sp = c("Tapirira guianensis", "Miconia mirabilis", "Guapira opposita")
+nome.sp = c("Tapirira guianensis", "Miconia mirabilis", "Guapira opposita") #exemplo com muiots registros 
+nome.sp = c("Prepusa montana", "Manilkara maxima", "Ocotea felix",
+            "Parinari littoralis", "Ipomoea franciscana")#com poucos registros
 
 #gerando objeto para armazenar os registros
 lista = c()
@@ -54,8 +56,8 @@ head(lista,10)
 data(wrld_simpl, package = "maptools")
 lista1=lista
 sp::coordinates(lista1)  =~lon+lat
-raster::plot(lista1, col = as.factor(lista$species), pch = ".", cex = 3)
-raster::plot(wrld_simpl, add = T)
+raster::plot(lista1, col = as.factor(unique(lista$species)), pch = 19, cex = 1.2);raster::plot(wrld_simpl, add = T)
+legend("topleft", unique(lista$species), col = as.factor(unique(lista$species)), pch = 19, title = "Espécies")
 
 #conferindo no Flora 2020
 ex.res=flora::get.taxa(unique(lista$species))
