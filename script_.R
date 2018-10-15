@@ -31,13 +31,17 @@ nome.sp = c("Prepusa montana", "Manilkara maxima", "Ocotea felix",
 #gerando objeto para armazenar os registros
 lista = c()
 
+pb <- txtProgressBar(min = 1, max = length(nome.sp), style = 3)
 #loop para baixar os registros em um única tabela
 for(i in nome.sp){
+  setTxtProgressBar(pb, grep(pattern = i, nome.sp))
+  cat("\n")
+  
   #baixar dados de ocorrência do GBIF pelo pacote dismo
   species=dismo::gbif(i)
   
   #selecionando as colunas de interesse
-  species.sel=species[,c("species","lon","lat", "municipality", "adm1")]
+  try((species.sel=species[,c("species","lon","lat", "municipality", "adm1")]))
   
   #excluíndo os registros que não tem longitude e latitude
   species.sel=na.exclude(species.sel)
